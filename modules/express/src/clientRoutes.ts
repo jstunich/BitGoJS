@@ -459,7 +459,7 @@ async function handleV2ConsolidateUnspents(req: express.Request) {
  *
  * @param req
  */
-async function handleV2ConsolidateAccount(req: express.Request) {
+export async function handleV2ConsolidateAccount(req: express.Request) {
   const bitgo = req.bitgo;
   const coin = bitgo.coin(req.params.coin);
 
@@ -467,7 +467,7 @@ async function handleV2ConsolidateAccount(req: express.Request) {
     throw new Error('consolidate address must be an array of addresses');
   }
 
-  if (coin.getFamily() !== CoinFamily.HBAR) {
+  if (coin.getFamily() !== CoinFamily.ALGO) {
     throw new Error('invalid coin selected');
   }
 
@@ -475,7 +475,7 @@ async function handleV2ConsolidateAccount(req: express.Request) {
 
   let result: any;
   try {
-    result = wallet.sendAccountConsolidations(req.body);
+    result = await wallet.sendAccountConsolidations(req.body);
   } catch (err) {
     err.status = 400;
     throw err;
