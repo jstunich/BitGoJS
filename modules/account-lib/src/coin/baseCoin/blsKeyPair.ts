@@ -1,8 +1,13 @@
 import * as BLS from '@chainsafe/bls';
-import { KeyPairOptions, isPrivateKey } from './iface';
 import { BaseKeyPair } from './baseKeyPair';
 import { AddressFormat } from './enum';
 import { NotImplementedError } from './errors';
+
+let initialized = false;
+const initialize = async () => {
+  await BLS.initBLS();
+  initialized = true;
+};
 
 /**
  * Base class for BLS keypairs.
@@ -10,11 +15,10 @@ import { NotImplementedError } from './errors';
 export abstract class BlsKeyPair implements BaseKeyPair {
   protected keyPair: BLS.Keypair;
 
-  /**
-   * Public constructor. By default, creates a key pair with a random master seed.
-   *
-   */
-  protected constructor() {
+  async generateKeyPair() {
+    if (!initialized) {
+      await initialize();
+    }
     this.keyPair = BLS.generateKeyPair();
   }
 
@@ -23,7 +27,10 @@ export abstract class BlsKeyPair implements BaseKeyPair {
    *
    * @param {string} prv a hexadecimal private key
    */
-  recordKeysFromPrivateKey(prv: string) {
+  async recordKeysFromPrivateKey(prv: string) {
+    if (!initialized) {
+      await initialize();
+    }
     if (this.isValidBLSPrv(prv)) {
       const privateKey = BLS.PrivateKey.fromHexString(prv);
       this.keyPair = new BLS.Keypair(privateKey);
