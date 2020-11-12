@@ -1,5 +1,4 @@
 import * as BLS from '@chainsafe/bls';
-import { DefaultKeys } from '../baseCoin/iface';
 import { BlsKeyPair } from '../baseCoin/blsKeyPair';
 
 /**
@@ -17,7 +16,7 @@ export class KeyPair extends BlsKeyPair {
   /**
    * ETH2 default keys format is a pair of Uint8Array keys
    *
-   * @returns { DefaultKeys } The keys in the defined format
+   * @returns { BLS.KeyPair } The keys in the defined format
    */
   getKeys(): BLS.Keypair {
     if (this.keyPair) {

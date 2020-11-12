@@ -1,5 +1,4 @@
 import * as BLS from '@chainsafe/bls';
-import { KeyPairOptions, isPrivateKey } from './iface';
 import { BaseKeyPair } from './baseKeyPair';
 import { AddressFormat } from './enum';
 import { NotImplementedError } from './errors';
