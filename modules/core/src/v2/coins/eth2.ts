@@ -253,9 +253,7 @@ export class Eth2 extends BaseCoin {
     }
 
     if (_.isUndefined(params.enterprise)) {
-      throw new Error(
-        'expecting enterprise when adding BitGo key'
-      );
+      throw new Error('expecting enterprise when adding BitGo key');
     }
 
     if (!_.isUndefined(params.enterprise) && !_.isString(params.enterprise)) {
@@ -370,14 +368,11 @@ export class Eth2 extends BaseCoin {
     const keyPair = new Eth2AccountLib.KeyPair();
     if (seed) {
       const prv = BLS.PrivateKey.fromBytes(seed).toHexString();
-      // @ts-ignore
       keyPair.recordKeysFromPrivateKey(prv);
     }
 
     return {
-      // @ts-ignore
       pub: keyPair.getKeys().publicKey.toHexString(),
-      // @ts-ignore
       prv: keyPair.getKeys().privateKey.toHexString(),
     };
   }
