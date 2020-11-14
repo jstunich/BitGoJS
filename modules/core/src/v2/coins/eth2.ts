@@ -158,7 +158,8 @@ export class Eth2 extends BaseCoin {
    * @returns {boolean} True if okay to send 0 value, false otherwise
    */
   valuelessTransferAllowed() {
-    return true;
+    // false until phase 2 of eth2.0 rolled out
+    return false;
   }
 
   /**
@@ -166,7 +167,8 @@ export class Eth2 extends BaseCoin {
    * @returns {boolean} True if okay to send tx data (ETH), false otherwise
    */
   transactionDataAllowed() {
-    return true;
+    // false until phase 2 of eth2.0 rolled out
+    return false;
   }
 
   /**
@@ -184,12 +186,7 @@ export class Eth2 extends BaseCoin {
    * @returns {Boolean} is it valid?
    */
   isValidPub(pub: string): boolean {
-    try {
-      BLS.PublicKey.fromHex(pub);
-      return true;
-    } catch (e) {
-      return false;
-    }
+    return Eth2AccountLib.KeyPair.isValidPub(pub);
   }
 
   /**
@@ -197,7 +194,7 @@ export class Eth2 extends BaseCoin {
    * @returns {BigNumber}
    */
   getRecoveryGasPrice(): any {
-    return new optionalDeps.ethUtil.BN('20000000000');
+    throw new Error('Method not yet implemented');
   }
 
   /**
@@ -205,7 +202,7 @@ export class Eth2 extends BaseCoin {
    * @returns {BigNumber}
    */
   getRecoveryGasLimit(): any {
-    return new optionalDeps.ethUtil.BN('500000');
+    throw new Error('Method not yet implemented');
   }
 
   /**
@@ -366,14 +363,13 @@ export class Eth2 extends BaseCoin {
    */
   generateKeyPair(seed?: Buffer): KeyPair {
     const keyPair = new Eth2AccountLib.KeyPair();
-    if (seed) {
-      const prv = BLS.PrivateKey.fromBytes(seed).toHexString();
-      keyPair.recordKeysFromPrivateKey(prv);
+    if (seed && Eth2AccountLib.KeyPair.isValidPrv(seed)) {
+      keyPair.recordKeysFromPrivateKeyBytes(seed);
     }
 
     return {
-      pub: keyPair.getKeys().publicKey.toHexString(),
-      prv: keyPair.getKeys().privateKey.toHexString(),
+      pub: keyPair.getKeys().pub,
+      prv: keyPair.getKeys().prv,
     };
   }
 

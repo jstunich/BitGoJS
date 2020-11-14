@@ -42,6 +42,7 @@ describe('Ethereum 2.0', function() {
     const keyPair = localBaseCoin.generateKeyPair(prv);
     keyPair.pub.should.equal('0x8df1173b7e52aa606aa42c95a4238a4c0a2dd19b9ff373479590482b57525ce2d27a5e62f586df960fb1fc05f361dbb9');
     keyPair.prv.should.equal('0x4fd90ae1b8f724a4902615c09145ae134617c325b98c6970dcf62ab9cc5e12f3');
+    localBaseCoin.isValidPub(keyPair.getKeys().pub).should.be.true();
   });
 
   it('should generate keypair without seed', function() {
@@ -51,5 +52,6 @@ describe('Ethereum 2.0', function() {
     keyPair.prv.length.should.equal(66);
     (keyPair.pub.startsWith('0x')).should.be.true();
     (keyPair.prv.startsWith('0x')).should.be.true();
+    localBaseCoin.isValidPub(keyPair.getKeys().pub).should.be.true();
   });
 });
