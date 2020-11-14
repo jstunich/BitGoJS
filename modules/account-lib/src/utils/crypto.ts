@@ -2,6 +2,7 @@ import { HDNode, ECPair, networks } from '@bitgo/utxo-lib';
 import * as nacl from 'tweetnacl';
 import { ExtendedKeys } from '../coin/baseCoin/iface';
 import { toUint8Array } from '../coin/hbar/utils';
+import * as BLS from '@chainsafe/bls';
 
 /**
  * @param {string} xpub - a base-58 encoded extended public key (BIP32)
